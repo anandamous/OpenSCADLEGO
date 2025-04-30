@@ -69,46 +69,46 @@ The `CUSTOM_LEGO.scad` script is organized into three main phases: setup, geomet
 
 1\. **Parameter and Constant Definitions**
 
-- Declares LEGO® standard constants (\`block\_height\`, \`wall\_thickness\`, \`roof\_thickness\`, stud specs, tube specs, pin specs) alongside user parameters (\`type\`, \`length\`, \`width\`, \`height\`, \`tubes\`, \`stud\_rescale\`)
+- Declares LEGO® standard constants (`block\_height`, `wall\_thickness`, `roof\_thickness`, stud specs, tube specs, pin specs) alongside user parameters (`type`, `length`, `width`, `height`, `tubes`, `stud\_rescale`)
 
 2\. **Derived Dimension Calculations**
 
-- Computes \`stud\_radius\` and \`tube\_radius\` after applying \`stud\_rescale\`.
+- Computes `stud\_radius` and `tube\_radius` after applying `stud\_rescale`.
 
-- Overrides \`fixed\_height\` for plates (\`type == "plate"\`).
+- Overrides `fixed\_height` for plates (`type == "plate"`).
 
-- Normalizes dimensions so that \`adjusted\_length\` ≥ \`adjusted\_width\` and enforces \`adjusted\_height\` ≥ 1/3.
+- Normalizes dimensions so that `adjusted\_length` ≥ `adjusted\_width` and enforces `adjusted\_height` ≥ 1/3.
 
-- Calculates \`scaled\_block\_height = adjusted\_height \* block\_height\`.
+- Calculates `scaled\_block\_height = adjusted\_height \* block\_height`.
 
-- Computes layout extents (\`total\_studs\_length\`, \`total\_tubes\_length\`, \`total\_pins\_length\`, etc.) for positioning loops.
+- Computes layout extents (`total\_studs\_length`, `total\_tubes\_length`, `total\_pins\_length`, etc.) for positioning loops.
 
-- Determines \`overall\_length\` and \`overall\_width\`, subtracting \`2 \* fit\_tolerance\` to prevent overly tight fits.
+- Determines `overall\_length` and `overall\_width`, subtracting `2 \* fit\_tolerance` to prevent overly tight fits.
 
 3\. **Geometry Construction**
 
-- Applies a \`translate()\` to center the block at the origin.
+- Applies a `translate()` to center the block at the origin.
 
-- **Outer Shell:** Uses a \`difference()\` to subtract an inner cuboid (offset by \`wall\_thickness\` and negative \`roof\_thickness\`) from a solid cube of size (\`overall\_length\`, \`overall\_width\`, \`scaled\_block\_height\`).
+- **Outer Shell:** Uses a `difference()` to subtract an inner cuboid (offset by `wall\_thickness` and negative `roof\_thickness`) from a solid cube of size (`overall\_length`, `overall\_width`, `scaled\_block\_height`).
 
-- **Studs:** If \`type != "tile"\`, nested for loops iterate over \`adjusted\_length\` and \`adjusted\_width\`, translating to each stud center and invoking the \`stud()\` module.
+- **Studs:** If `type != "tile"`, nested for loops iterate over `adjusted\_length` and `adjusted\_width`, translating to each stud center and invoking the `stud()` module.
 
-- **Tubes:** When \`adjusted\_length > 1 && adjusted\_width > 1\`, nested loops place hollow support tubes via the \`tube()\` module.
+- **Tubes:** When `adjusted\_length > 1 && adjusted\_width > 1`, nested loops place hollow support tubes via the `tube()` module.
 
-- **Pins:** For single row or single column bricks (\`adjusted\_length == 1\` or \`adjusted\_width == 1\`), linear loops add full-height solid cylinders as pin supports.
+- **Pins:** For single row or single column bricks (`adjusted\_length == 1` or `adjusted\_width == 1`), linear loops add full-height solid cylinders as pin supports.
 
 4\. **Feature Modules**
 
-- \`stud()\`: Generates a cylinder of radius \`stud\_radius\` and height \`stud\_height\`
+- `stud()`: Generates a cylinder of radius `stud\_radius` and height `stud\_height`
 
-- \`tube()\`: Produces a hollow cylinder by subtracting an inner cylinder (radius \`tube\_radius - tube\_wall\_thickness\`) from an outer cylinder (radius \`tube\_radius\`).
+- `tube()`: Produces a hollow cylinder by subtracting an inner cylinder (radius `tube\_radius - tube\_wall\_thickness`) from an outer cylinder (radius `tube\_radius`).
 
 
 ## **Testing - Printing on the QIDI Q1 Pro with PLA**
 
 ### **Tuning for Fit**
 
-- I observed loose stud-tube clearances upon the first print. After much trial and error, changing \`fit\_tolerance\` to 0.1 mm and setting \`stud\_rescale = 1.05\` allowed studs to click in smoothly without sacrificing clutch power.
+- I observed loose stud-tube clearances upon the first print. After much trial and error, changing `fit\_tolerance` to 0.1 mm and setting `stud\_rescale = 1.05` allowed studs to click in smoothly without sacrificing clutch power.
 
 - Wall thickness and tube wall thickness remained at LEGO-standard values (1.45 mm exterior, 0.85 mm tube walls), which printed decently well on the QIDI Q1 Pro. Unfortunately, I was not able to figure out how to allow users to fit studs into the interior tubes like one would a normal LEGO® brick.
 
