@@ -117,9 +117,17 @@ The `CUSTOM_LEGO.scad` script is organized into three main phases: setup, geomet
 
 **2x2 Brick Invocation:**
 
-|                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------- |
-| block(    type = "brick",    length = 2,    width = 2,    height = 1,    tubes = true,    stud_rescale = 1.05); |
+```
+block(
+    type = "brick",
+    length = 2,
+    width = 2,
+    height = 1,
+    tubes = true,
+    stud_rescale = 1.05
+);
+
+```
 
 **2x2 Brick Preview:**
 
@@ -127,9 +135,16 @@ The `CUSTOM_LEGO.scad` script is organized into three main phases: setup, geomet
 
 **1x5 Plate Invocation:**
 
-|                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------- |
-| block(    type = "plate",    length = 1,    width = 5,    height = 1,    tubes = true,    stud_rescale = 1.05); |
+```
+block(
+    type = "plate",
+    length = 1,
+    width = 5,
+    height = 1,
+    tubes = true,
+    stud_rescale = 1.05
+);
+```
 
 **1x5 Plate Preview:**
 
@@ -137,9 +152,16 @@ The `CUSTOM_LEGO.scad` script is organized into three main phases: setup, geomet
 
 **3x1 Tile Invocation:**
 
-|                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------- |
-| block(    type = "plate",    length = 1,    width = 5,    height = 1,    tubes = true,    stud_rescale = 1.05); |
+```
+block(
+    type = "plate",
+    length = 1,
+    width = 5,
+    height = 1,
+    tubes = true,
+    stud_rescale = 1.05
+);
+```
 
 **3x1 Tile Preview:**
 
@@ -156,7 +178,7 @@ Through design and testing, several lessons were learned:
 
 **Dimensional Tuning:**
 
-- Adjusting fit_tolerance in 0.05 mm increments showed me that clearance between studs and tubes directly influences how tightly they snap together.
+- Adjusting `stud_rescale` in 0.05 mm increments showed me that clearance between studs and tubes directly influences how tightly they snap together.
 
 - A final tolerance of 0.1 mm balanced ease of assembly with secure fit, lower values or none led to too tight connections, higher values produced loose connections.
 
@@ -178,7 +200,6 @@ Through design and testing, several lessons were learned:
 
 - Explicit variable naming such as `scaled_block_height` or `total_studs_length` improved readability during debugging.
 
-
 ## **Future Work**
 
 Some features were planned but were not completed due to the lack of time from other classes:
@@ -186,7 +207,6 @@ Some features were planned but were not completed due to the lack of time from o
 - Implement slope modules (such as 45° or curved wedges) with correct stud alignment.
 
 - Add round and Technic elements (axle holes, pin connectors) using parameterized boolean operations.
-
 
 ## **Credits/Acknowledgements**
 
