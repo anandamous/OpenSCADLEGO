@@ -8,7 +8,6 @@
 
 **NOTE:** LEGO® is a trademark of the LEGO Group, which does not sponsor, authorize, or endorse this project. This project is purely educational.
 
-
 ## **Introduction**
 
 I’ve always enjoyed how versatile LEGO® bricks are, and how satisfying it is to snap together tiny yet amazingly engineered bricks. Additionally, I’ve found OpenSCAD’s ability to parameterize 3D models to be a powerful tool, making design development much easier. For my CS 453 Robotics & 3D Printing final project, I set out to combine OpenSCAD’s parameter ability with the classic interlocking LEGO® brick to create an OpenSCAD project that allows users to create their own LEGO® bricks via parameters. My goals for the project were:
@@ -21,7 +20,6 @@ I’ve always enjoyed how versatile LEGO® bricks are, and how satisfying it is 
 
 Below, I share the design approach, code structure, print testing on a QIDI Q1 Pro, and lessons learned.
 
-
 ## **Design Rationale**
 
 ### **Block Types**
@@ -31,7 +29,6 @@ Below, I share the design approach, code structure, print testing on a QIDI Q1 P
 - **Tile:** Smooth top block (no studs), ideal for finishing surfaces.
 
 - **Plate:** One-third brick height (3.2 mm) with studs on top, matching LEGO® plate height.
-
 
 ### **Key Parameters**
 
@@ -46,7 +43,6 @@ Below, I share the design approach, code structure, print testing on a QIDI Q1 P
 ![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXdIk3O4_sD25iwlWUzEFskw4V6ShPlVsljK1-bRFBslI8PrfoSKu1cH9_9viVsF6l6grc1QOumjqgMo7--K_1EgBtZm8uATA_VaDwIIdfkwWdYYxCatUW_DaVbe6HKBZydaVjuu-g?key=8ow8Sl_SKdfE-ERETZjIOWHj)
 
 [From Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Lego_dimensions.svg)
-
 
 ### **Technical Highlights**
 
@@ -67,46 +63,45 @@ Official LEGO® dimensions are encoded as constants in the script:
 |      Precision      |   0.1 mm  |                  Controls smoothness of cylinders in OpenSCAD                  |
 |    Fit Tolerance    |   0.1 mm  |     Subtracted from final dimensions to prevent overly tight fits in prints    |
 
-
 ## **Implementation Overview**
 
-The CUSTOM\_LEGO.scad script is organized into three main phases: setup, geometry construction, and feature modules.
+The `CUSTOM_LEGO.scad` script is organized into three main phases: setup, geometry construction, and feature modules.
 
 1\. **Parameter and Constant Definitions**
 
-- Declares LEGO® standard constants (block\_height, wall\_thickness, roof\_thickness, stud specs, tube specs, pin specs) alongside user parameters (type, length, width, height, tubes, stud\_rescale, fit\_tolerance, precision).
+- Declares LEGO® standard constants (\`block\_height\`, \`wall\_thickness\`, \`roof\_thickness\`, stud specs, tube specs, pin specs) alongside user parameters (\`type\`, \`length\`, \`width\`, \`height\`, \`tubes\`, \`stud\_rescale\`)
 
 2\. **Derived Dimension Calculations**
 
-- Computes stud\_radius and tube\_radius after applying stud\_rescale.
+- Computes \`stud\_radius\` and \`tube\_radius\` after applying \`stud\_rescale\`.
 
-- Overrides fixed\_height for plates (type == "plate").
+- Overrides \`fixed\_height\` for plates (\`type == "plate"\`).
 
-- Normalizes dimensions so that adjusted\_length ≥ adjusted\_width and enforces adjusted\_height ≥ 1/3.
+- Normalizes dimensions so that \`adjusted\_length\` ≥ \`adjusted\_width\` and enforces \`adjusted\_height\` ≥ 1/3.
 
-- Calculates scaled\_block\_height = adjusted\_height x block\_height.
+- Calculates \`scaled\_block\_height = adjusted\_height \* block\_height\`.
 
-- Computes layout extents (total\_studs\_length, total\_tubes\_length, total\_pins\_length, etc.) for positioning loops.
+- Computes layout extents (\`total\_studs\_length\`, \`total\_tubes\_length\`, \`total\_pins\_length\`, etc.) for positioning loops.
 
-- Determines overall\_length and overall\_width, subtracting 2 x fit\_tolerance to prevent overly tight fits.
+- Determines \`overall\_length\` and \`overall\_width\`, subtracting \`2 \* fit\_tolerance\` to prevent overly tight fits.
 
 3\. **Geometry Construction**
 
-- Applies a translate to center the block at the origin.
+- Applies a \`translate()\` to center the block at the origin.
 
-- Outer Shell: Uses a difference() to subtract an inner cuboid (offset by wall\_thickness and negative roof\_thickness) from a solid cube of size (overall\_length, overall\_width, scaled\_block\_height).
+- **Outer Shell:** Uses a \`difference()\` to subtract an inner cuboid (offset by \`wall\_thickness\` and negative \`roof\_thickness\`) from a solid cube of size (\`overall\_length\`, \`overall\_width\`, \`scaled\_block\_height\`).
 
-- Studs: If type != "tile", nested for loops iterate over adjusted\_length and adjusted\_width, translating to each stud center and invoking the stud() module.
+- **Studs:** If \`type != "tile"\`, nested for loops iterate over \`adjusted\_length\` and \`adjusted\_width\`, translating to each stud center and invoking the \`stud()\` module.
 
-- Tubes: When adjusted\_length > 1 && adjusted\_width > 1 and not a plate roof, nested loops place hollow support tubes via the tube() module.
+- **Tubes:** When \`adjusted\_length > 1 && adjusted\_width > 1\`, nested loops place hollow support tubes via the \`tube()\` module.
 
-- Pins: For single row or single column bricks (adjusted\_length == 1 or adjusted\_width == 1), linear loops add full-height solid cylinders as pin supports.
+- **Pins:** For single row or single column bricks (\`adjusted\_length == 1\` or \`adjusted\_width == 1\`), linear loops add full-height solid cylinders as pin supports.
 
 4\. **Feature Modules**
 
-- stud(): Generates a cylinder of radius stud\_radius and height stud\_height
+- \`stud()\`: Generates a cylinder of radius \`stud\_radius\` and height \`stud\_height\`
 
-- tube(): Produces a hollow cylinder by subtracting an inner cylinder (radius tube\_radius - tube\_wall\_thickness) from an outer cylinder (radius tube\_radius).
+- \`tube()\`: Produces a hollow cylinder by subtracting an inner cylinder (radius \`tube\_radius - tube\_wall\_thickness\`) from an outer cylinder (radius \`tube\_radius\`).
 
 
 ## **Testing - Printing on the QIDI Q1 Pro with PLA**
@@ -169,8 +164,6 @@ Through design and testing, several lessons were learned:
 
 - PLA’s slight shrinkage and layer adhesion variability required stud\_rescale trials from 1.00 to 1.1; 1.05 delivered reliable results.
 
-- I have not tried PETG and ABS, but they also may need different scaling factors due to the nature of the materials.
-
 **Structural Trade‑offs:**
 
 - Hollow tubes significantly increase vertical strength but will obstruct stud inserts.
@@ -184,6 +177,15 @@ Through design and testing, several lessons were learned:
 - Modularizing stud() and tube() allowed easy feature toggling and code reuse.
 
 - Explicit variable naming such as scaled\_block\_height or total\_studs\_length improved readability during debugging.
+
+
+## **Future Work**
+
+Some features were planned but were not completed due to the lack of time from other classes:
+
+- Implement slope modules (such as 45° or curved wedges) with correct stud alignment.
+
+- Add round and Technic elements (axle holes, pin connectors) using parameterized boolean operations.
 
 
 ## **Credits/Acknowledgements**
