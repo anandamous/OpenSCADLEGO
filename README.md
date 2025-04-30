@@ -1,10 +1,10 @@
-**CS 453 Robotics & 3D Printing**
+## **CS 453 Robotics & 3D Printing**
 
-**Custom LEGO® Bricks via OpenSCAD**
+# **Custom LEGO® Bricks via OpenSCAD**
 
-**By Anand Egan**
+## **By Anand Egan**
 
-**May 1, 2025**
+## **May 1, 2025**
 
 **NOTE:** LEGO® is a trademark of the LEGO Group, which does not sponsor, authorize, or endorse this project. This project is purely educational.
 
