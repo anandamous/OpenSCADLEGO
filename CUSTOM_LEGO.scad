@@ -9,41 +9,51 @@
 // is protected by various intellectual property rights, including trademarks and design patents.
 // This project is non-commercial and it's only intention is to explore 3D modeling concepts in OpenSCAD.
 
+// ENTER THE BLOCK PARAMETERS HERE
+// UNITS OF MEASUREMENT: STUDS
+
+// The type of block?
+// Brick - "brick" - (block with studs on top)
+// Tile - "tile" - (block with no studs on top)
+// plate - "plate" (1/3 height) *OR* directly change height to 1/3
+// NOTE: When plate is select, height parameter is overriden and set to 1/3
+// I was planning on more types of blocks, like slopes, or round, but I did not have enough time for that.
+type = "brick"; //["brick", "tile", "plate" ]
+
+// Length
+// Enter an integer, no decimals/fractions
+length = 2;
+
+// Width
+// Enter an integer, no decimals/fractions
+width = 2;
+
+// Height
+// Enter a number, decimals/fractions allowed
+// 
+// '1' = Normal height, '1/3' = Plate height
+height = 1.0;//[0.33:0.01:20]
+
+// Create the bottom tubes?
+// "true" or "false"
+tubes = true;
+
+// Recale the studs to be bigger?
+// Helpful when printing with certain materials like PLA
+// '1.00' - default
+// '1.05' - helped with PLA
+stud_rescale = 1.05;
+
 block(
-    // ENTER THE BLOCK PARAMETERS HERE
-    // UNITS OF MEASUREMENT: STUDS
-
-    // The type of block?
-    // Brick - "brick" - (block with studs on top)
-    // Tile - "tile" - (block with no studs on top)
-    // plate - "plate" (1/3 height) *OR* directly change height to 1/3
-    // I was planning on more types of blocks, like slopes, or round, but I did not have enough time for that.
-    type = "brick",
-
-    // Length
-    // Enter an integer, no decimals/fractions
-    length = 2,
-
-    // Width
-    // Enter an integer, no decimals/fractions
-    width = 2,
-
-    // Height
-    // Enter a number, decimals/fractions allowed
-    // '1' - Normal height
-    // '1/3' - Plate height
-    height = 1,
-
-    // Create the bottom tubes?
-    // "true" or "false"
-    tubes = true,
-
-    // Recale the studs to be bigger?
-    // Helpful when printing with certain materials like PLA
-    // '1.00' - default
-    // '1.05' - helped with PLA
-    stud_rescale = 1.05
+    type = type,
+    length = length,
+    width = width,
+    height = height,
+    tubes = tubes,
+    stud_rescale = stud_rescale
 );
+
+
 
 module block(
 
