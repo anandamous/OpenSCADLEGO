@@ -41,8 +41,14 @@ tubes = true;
 // Recale the studs to be bigger?
 // Helpful when printing with certain materials like PLA
 // '1.00' - default
-// '1.05' - helped with PLA
-stud_rescale = 1.05;
+// '1.05' - helped with PLA on Prusa Mini+
+stud_rescale = 1.03;
+
+// Recale the bottom tubes to be bigger?
+// Helpful when printing with certain materials like PLA
+// '1.00' - default
+// '1.01' - helped with PLA on Prusa Mini+
+tube_rescale = 1.01;
 
 block(
     type = type,
@@ -50,7 +56,8 @@ block(
     width = width,
     height = height,
     tubes = tubes,
-    stud_rescale = stud_rescale
+    stud_rescale = stud_rescale,
+    tube_rescale = tube_rescale
 );
 
 
@@ -63,7 +70,8 @@ module block(
     width = 2,
     height = 1,
     tubes = true,
-    stud_rescale = 1
+    stud_rescale = 1,
+    tube_rescale = 1
     
     ) {
     
@@ -94,7 +102,8 @@ module block(
     // Adjust stud size by user-defined scale
     stud_diameter_rescaled = stud_diameter * stud_rescale;
     stud_radius = stud_diameter_rescaled / 2;
-    tube_radius = tube_diameter / 2;
+    tube_diameter_rescaled = tube_diameter*tube_rescale;
+    tube_radius = tube_diameter_rescaled / 2;
 
     // Don't want to overwrite a literal
     // If "plate" type, override the height
@@ -116,13 +125,13 @@ module block(
                       + ((adjusted_width - 1) 
                       * (stud_spacing - (stud_diameter_rescaled)));
 
-    total_tubes_length = (tube_diameter * (adjusted_length - 1))
+    total_tubes_length = (tube_diameter_rescaled * (adjusted_length - 1))
                        + ((adjusted_length - 2) 
-                       * (stud_spacing - tube_diameter));
+                       * (stud_spacing - tube_diameter_rescaled));
 
-    total_tubes_width = (tube_diameter * (adjusted_width - 1)) 
+    total_tubes_width = (tube_diameter_rescaled * (adjusted_width - 1)) 
                       + ((adjusted_width - 2) 
-                      * (stud_spacing - tube_diameter));
+                      * (stud_spacing - tube_diameter_rescaled));
 
     // Pins used when block is 1 stud wide/long
     total_pins_length = (pin_diameter * (adjusted_length - 1)) 
